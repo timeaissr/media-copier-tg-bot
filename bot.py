@@ -122,12 +122,17 @@ async def post_init(application) -> None:
 
 def main():
     TOKEN = os.getenv("BOT_TOKEN")
-    DOMAIN = os.getenv("BOT_DOMAIN", "tg-bot.109096.xyz")
-    PORT = int(os.getenv("PORT", 23795))
+    DOMAIN = os.getenv("BOT_DOMAIN")
 
     if not TOKEN:
         logger.error("请确保配置了环境变量 BOT_TOKEN")
         return
+
+    if not DOMAIN:
+        logger.error("请确保配置了环境变量 BOT_DOMAIN")
+        return
+
+    PORT = int(os.getenv("PORT", 23795))
 
     # 使用 post_init 钩子绑定后台工作协程
     application = ApplicationBuilder().token(TOKEN).post_init(post_init).build()
